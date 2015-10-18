@@ -1,7 +1,6 @@
 use std::io;
 use std::io::prelude::*;
 use std::net::TcpStream;
-use std::slice::bytes::copy_memory;
 use std::cmp;
 use rand::{Rng, OsRng};
 
@@ -297,6 +296,12 @@ impl<R: Read, W: Write> Write for TlsClient<R, W> {
                 }))
             }
         }
+    }
+}
+
+fn copy_memory(src: &[u8], dst: &mut [u8]) {
+    for (i, e) in src.iter().zip(dst) { 
+        *e = *i
     }
 }
 
