@@ -5,6 +5,7 @@
 extern crate log;
 extern crate rand;
 extern crate num;
+extern crate crypto;
 
 #[macro_use]
 extern crate enum_primitive;
@@ -15,14 +16,12 @@ pub use client::TlsClient;
 pub mod macros;
 pub mod util;
 
-// basic crypto primitives
-pub mod crypto;
-
 pub mod tls_result;
 #[macro_use]
 pub mod tls_item;
 
 // TLS AEAD cipehrsuites
+pub mod crypto2;
 pub mod cipher;
 
 pub mod signature;

@@ -1,12 +1,12 @@
 use std::io::Cursor;
 use rand::{Rng, OsRng};
 
-use crypto::wrapping::Wrapping as W;
+use crypto2::wrapping::Wrapping as W;
 use util::{ReadExt, WriteExt};
 use tls_result::TlsResult;
 use tls_result::TlsErrorKind::IllegalParameter;
 use tls_item::TlsItem;
-use crypto::p256;
+use crypto2::p256;
 use handshake::NamedCurve;
 use signature::DigitallySigned;
 use super::KeyExchange;

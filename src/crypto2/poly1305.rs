@@ -1,6 +1,6 @@
 // http://cr.yp.to/mac/poly1305-20050329.pdf
 
-use crypto::wrapping::*;
+use crypto2::wrapping::*;
 
 macro_rules! choose_impl {
     ($s: ident, $t:ty, $($a:expr)+) => (
@@ -21,7 +21,7 @@ macro_rules! choose_impl {
 // radix-2^26 (26 == 130/5)
 // value = v[0] + 2^26 v[1] + 2^52 v[2] + 2^78 v[3] + 2^104 v[4]
 // lazy normalization: v[i] <= 2^32 - 1
-// http://cr.yp.to/highspeed/neoncrypto-20120320.pdf
+// http://cr.yp.to/highspeed/neoncrypto2-20120320.pdf
 pub struct Int1305 {
     v: [u32; 5],
 }

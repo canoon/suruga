@@ -2,11 +2,13 @@
 // SHA-256 only for now.
 
 use std::mem;
-use crypto::sha2::sha256;
+use crypto::digest::Digest;
+use crypto::sha2::Sha256;
 
 // key is SECRET, but the length is publicly known.
 pub fn hmac_sha256(key: &[u8], msg: &[u8]) -> [u8; 32] {
     const B: usize = 64;
+    let mut sha = Sha256::new();
 
     if key.len() > B {
         // FIXME
@@ -21,9 +23,15 @@ pub fn hmac_sha256(key: &[u8], msg: &[u8]) -> [u8; 32] {
     }
 
     i_msg.extend(msg);
-    let h_i = sha256(&i_msg);
+    sha.input(&i_msg);
+    let mut h_i = [0u8; 32]; //sha.output_bits()];
+    sha.result(&mut h_i);
+    sha.reset();
     o_msg.extend(&h_i);
-    let h_o = sha256(&o_msg);
+    sha.input(&o_msg);
+    let mut h_o = [0u8; 32];// sha.output_bits()];
+    sha.result(&mut h_o);
+    sha.reset();
 
     h_o
 }

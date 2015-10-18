@@ -10,7 +10,8 @@ use tls_result::TlsErrorKind::{UnexpectedMessage, InternalError, DecryptError, I
 use util::{SurugaError, crypto_compare};
 use cipher::{self, Aead};
 use cipher::prf::Prf;
-use crypto::sha2::sha256;
+use crypto::digest::Digest;
+use crypto::sha2::Sha256;
 use tls_item::{TlsItem, DummyItem};
 use handshake::{self, Handshake};
 use tls::{TlsReader, TlsWriter, TLS_VERSION};
@@ -181,7 +182,10 @@ impl<R: Read, W: Write> TlsClient<R, W> {
         // can be broken into several records. This leads to alert attack.
         // since we don't accept strange alerts, all "normal" alert messages are
         // treated as error, so now we can assert that we haven't received alerts.
-        let verify_hash = sha256(&msgs);
+        let mut hash = Sha256::new();
+	hash.input(&msgs);
+        let mut verify_hash = [0u8; 32]; // hash.output_bytes()];
+	hash.result(&mut verify_hash);
 
         let client_verify_data = {
             let finished_label = b"client finished";
@@ -210,7 +214,10 @@ impl<R: Read, W: Write> TlsClient<R, W> {
                 try!(Write::write_all(&mut serv_msgs, &msgs));
                 try!(finished.tls_write(&mut serv_msgs));
 
-                let verify_hash = sha256(&serv_msgs);
+        	let mut hash = Sha256::new();
+		hash.input(&serv_msgs);
+        	let mut verify_hash = [0u8; 32]; // hash.output_bytes()];
+		hash.result(&mut verify_hash);
                 verify_hash
             };
 

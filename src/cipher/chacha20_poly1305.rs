@@ -5,8 +5,8 @@
 // they differ in detail, so here we follow google/boringssl implementation.
 // openssl 1.0.2-aead branch seems to implement draft 01.
 
-use crypto::chacha20::ChaCha20;
-use crypto::poly1305;
+use crypto2::chacha20::ChaCha20;
+use crypto2::poly1305;
 use util::u64_le_array;
 use tls_result::TlsResult;
 use tls_result::TlsErrorKind::BadRecordMac;

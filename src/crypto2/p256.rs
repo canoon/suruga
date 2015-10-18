@@ -2,8 +2,8 @@
 // http://www.nsa.gov/ia/_files/nist-routines.pdf
 // http://point-at-infinity.org/ecc/nisttv
 
-use crypto::wrapping::*;
-use crypto::wrapping::Wrapping as W;
+use crypto2::wrapping::*;
+use crypto2::wrapping::Wrapping as W;
 use self::int256::{Int256, ZERO, ONE};
 
 // Point on Y^2 = X^3 - 3 * X + B mod P256 where B is some obscure big number
@@ -271,8 +271,8 @@ impl NPoint256 {
 }
 
 pub mod int256 {
-    use crypto::wrapping::*;
-    use crypto::wrapping::Wrapping as W;
+    use crypto2::wrapping::*;
+    use crypto2::wrapping::Wrapping as W;
 
     const LIMBS: usize = 8;
 
@@ -612,7 +612,7 @@ pub mod int256 {
     #[cfg(test)]
     mod test {
         use super::{Int256, P256, ZERO, ONE};
-        use crypto::wrapping::Wrapping as W;
+        use crypto2::wrapping::Wrapping as W;
 
         impl PartialEq for Int256 {
             fn eq(&self, b: &Int256) -> bool {
